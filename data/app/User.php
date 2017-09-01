@@ -2,8 +2,7 @@
 
 namespace App;
 
-namespace App;
-
+use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -18,7 +17,6 @@ class User extends Eloquent implements
     CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
