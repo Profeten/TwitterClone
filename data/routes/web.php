@@ -23,7 +23,3 @@ Route::post('/home', 'TweetController@newTweet');
 Route::get('/api/channel/{channel}', 'TweetController@getChannel');
 
 Route::get('/api/tweets', 'TweetController@getTweets');
-
-Route::get('/debug', function () {
-    echo date('Y-m-d H:m:s');
-});
