@@ -114,7 +114,7 @@ class TweetController extends Controller
                 'channels' => $this->getChannels($msg),
             ]);
 
-            event(new \App\Events\NewTweet($tweet));
+            event(new \App\Events\newTweet($tweet));
 
             return response('OK', 200)->header('Content-Type', 'text/plain');
         }
