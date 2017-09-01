@@ -133,4 +133,9 @@ class TweetController extends Controller
     {
         return response()->json(Tweets::whereIn('channels', [$channel])->orderBy('created_at', 'desc')->get());
     }
+
+    public function getMention($user)
+    {
+        return response()->json(Tweets::whereIn('mentions', [$user])->orderBy('created_at', 'desc')->get());
+    }
 }

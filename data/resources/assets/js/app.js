@@ -25,14 +25,17 @@ Vue.use(Vuex);
 Vue.component('newtweet', require('./components/NewTweet.vue'));
 Vue.component('tweets', require('./components/Tweets.vue'));
 Vue.component('channel', require('./components/Channel.vue'));
+Vue.component('mention', require('./components/Mention.vue'));
 Vue.component('message', require('./components/Message.vue'));
 
 const FrontPage = { template: '<div><message></message><newtweet></newtweet><tweets></tweets></div>' }
 const Channel = { template: '<div><message></message><newtweet></newtweet><channel></channel></div>' }
+const Mention = { template: '<div><message></message><newtweet></newtweet><mention></mention></div>' }
 
 const routes = [
   { path: '/', component: FrontPage },
-  { path: '/channel/:channel', component: Channel }
+  { path: '/channel/:channel', component: Channel },
+  { path: '/user/:user', component: Mention }
 ]
 
 const router = new VueRouter({
