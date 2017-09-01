@@ -1,0 +1,60 @@
+version: "2"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: chas-db
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./mongodb-data:/data
+    ports:
+        - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+
+  redis:
+    image: redis:latest
+    container_name: chas-cache
+    volumes:
+      - ./conf/redis/redis.conf:/usr/local/etc/redis/redis.conf
+
+  fpm:
+    build:
+      context: ./php-fpm
+    image: chas-php
+    container_name: chas-php
+    links:
+      - mongodb
+    expose:
+        - "9000"
+    volumes:
+    - ./data:/var/www/html
+    - ./conf/php/php.ini:/usr/local/etc/php/php.ini
+    environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Europe/Stockholm
+    restart: always
+
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        - PHP_UPSTREAM=fpm
+    container_name: chas-http
+    depends_on:
+      - fpm
+    ports:
+      - 80:80
+    links:
+      - fpm
+      - mongodb
+      - redis
+    volumes:
+      - ./data:/var/www/html
+      - ./conf/nginx/sites:/etc/nginx/sites-available
+      - ./conf/nginx/logs:/var/log/nginx
+    environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Europe/Stockholm
+    restart: always

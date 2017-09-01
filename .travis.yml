@@ -1,0 +1,12 @@
+sudo: required
+language: php
+php:
+  - '7.1'
+
+services:
+  - docker
+
+script:
+  - docker-compose build
+  - docker-compose up -d
+  - docker exec -it chas-php /bin/sh -c "cd /var/www/html && composer install && npm install && phpunit"
