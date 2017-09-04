@@ -4,16 +4,8 @@
       <div v-for="tweet in tweets" class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-md-6">
-                  <strong>@{{tweet.messaged_by}}</strong>
-                </div>
-                <div class="col-md-6">
-                  <span class="posted">{{fromNow(tweet.created_at)}}</span>
-                </div>
-              </div>
-            </div>
+            <label class="author">@{{tweet.messaged_by}} wrote...</label>
+            <label class="timestamp">{{fromNow(tweet.created_at)}}</label>
             <div class="panel-body" v-html="tweet.message">
             </div>
           </div>
@@ -41,7 +33,9 @@
           .listen('newTweet', event => {
             axios.get('/api/channel/' + this.$route.params.channel)
             .then(res => {
-              this.tweets = res.data;
+              if (!_.isEqual(this.tweets, res.data)) {
+                this.tweets = res.data;
+              }
             })
             .catch(err => {
               console.log(err);
@@ -74,5 +68,30 @@
 }
 .posted {
   float: right;
+}
+.panel {
+  padding: 15px;
+  background-color: #E2E4E6;
+}
+.panel-body {
+  position: relative;
+  background-color: whitesmoke;
+  padding-top: 25px;
+}
+.author {
+  position: absolute;
+  top: 22px;
+  left: 45px;
+  z-index: 3;
+  font-weight: bold;
+  font-size: 10px;
+}
+.timestamp {
+  position: absolute;
+  top: 22px;
+  right: 45px;
+  z-index: 3;
+  font-weight: bold;
+  font-size: 10px;
 }
 </style>

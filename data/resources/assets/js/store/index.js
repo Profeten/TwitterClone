@@ -8,7 +8,8 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   state: {
     successMessageStatus: false,
-    successMessage: []
+    successMessage: [],
+    mentionBoxStatus: false
   },
   mutations: {
     setSuccessMessage (state, msg) {
@@ -16,16 +17,29 @@ export default new Vuex.Store({
     },
     setSuccessMessageStatus (state) {
       state.successMessageStatus = !state.successMessageStatus;
+    },
+    showMentionBox (state) {
+      state.mentionBoxStatus = true;
+    },
+    hideMentionBox (state) {
+      state.mentionBoxStatus = false;
     }
   },
   actions: {
     setSuccessMessage ({commit}, msg) {
       commit('setSuccessMessage', msg);
       commit('setSuccessMessageStatus');
+    },
+    showMentionBox ({commit}) {
+      commit('showMentionBox')
+    },
+    hideMentionBox ({commit}) {
+      commit('hideMentionBox')
     }
   },
   getters: {
     getSuccessMessage: state => state.successMessage,
-    getSuccessMessageStatus: state => state.successMessageStatus
+    getSuccessMessageStatus: state => state.successMessageStatus,
+    getMentionBoxStatus: state => state.mentionBoxStatus,
   }
 });

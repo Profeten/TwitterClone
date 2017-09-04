@@ -5,7 +5,11 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="form-group">
-              <textarea v-model="tweet" class="form-control"></textarea>
+              <textarea
+                v-model="tweet"
+                v-on:keydown.alt.50="mention"
+                class="form-control">
+              </textarea>
             </div>
             <div class="form-group">
               <div class="row">
@@ -23,12 +27,24 @@
         </div>
       </div>
     </div>
+    <transition name="fade">
+      <MentionList v-show="displayMentionBox"></MentionList>
+    </transition>
   </div>
 </template>
 
 <script>
+  import MentionList from './Modals/MentionList.vue';
   export default {
       name: 'newtweet',
+      components: {
+        MentionList
+      },
+      computed: {
+        displayMentionBox () {
+          return this.$store.getters.getMentionBoxStatus;
+        }
+      },
       data () {
         return {
           tweet: [],
@@ -43,12 +59,15 @@
                 this.tweet = [];
                 this.$store.dispatch('setSuccessMessage', 'Success!');
               } else {
-                console.log('There was an error processing your request')
+                console.log('There was an error processing your request please try again later')
               }
             });
           } else {
             console.log('Tweets must be longer than 3 characters');
           }
+        },
+        mention (e) {
+          this.$store.dispatch('showMentionBox');
         }
       },
       mounted () {
@@ -58,8 +77,16 @@
 </script>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s ease-in
+}
+.fade-enter, .fade-leave-to {
+  transform: translateY(15px);
+  opacity: 0
+}
 .counter {
   float: right;
+  color: whitesmoke;
 }
 .warning {
   color: red;

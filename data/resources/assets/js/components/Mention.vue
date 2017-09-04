@@ -4,16 +4,8 @@
       <div v-for="tweet in tweets" class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-md-6">
-                  <strong>@{{tweet.messaged_by}}</strong>
-                </div>
-                <div class="col-md-6">
-                  <span class="posted">{{fromNow(tweet.created_at)}}</span>
-                </div>
-              </div>
-            </div>
+            <label class="author">@{{tweet.messaged_by}} wrote...</label>
+            <label class="timestamp">{{fromNow(tweet.created_at)}}</label>
             <div class="panel-body" v-html="tweet.message">
             </div>
           </div>
@@ -55,7 +47,6 @@
         this.listen();
         axios.get('/api/mentioned/' + this.$route.params.user)
         .then(res => {
-          console.log(res)
           this.tweets = res.data;
           this.isLoaded = true;
         })
