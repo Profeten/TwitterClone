@@ -6,7 +6,7 @@
           <div class="panel-body">
             <div class="form-group">
               <textarea
-                v-model="tweet"
+                v-model="writeMessage"
                 v-on:keydown.alt.50="mention"
                 class="form-control">
               </textarea>
@@ -43,6 +43,14 @@
       computed: {
         displayMentionBox () {
           return this.$store.getters.getMentionBoxStatus;
+        },
+        writeMessage: {
+          get () {
+            return this.$store.getters.getTweet;
+          },
+          set (message) {
+            this.$store.dispatch('setTweet', message);
+          }
         }
       },
       data () {
@@ -52,11 +60,11 @@
       },
       methods: {
         submitTweet () {
-          if (this.tweet.length > 3) {
-            axios.post('/home', { data: this.tweet })
+          if (this.$store.getters.getTweet.length > 3) {
+            axios.post('/home', { data: this.$store.getters.getTweet })
             .then((res) => {
               if (res.status === 200) {
-                this.tweet = [];
+                this.$store.dispatch('setTweet', "");
                 this.$store.dispatch('setSuccessMessage', 'Success!');
               } else {
                 console.log('There was an error processing your request please try again later')

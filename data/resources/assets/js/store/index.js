@@ -7,11 +7,15 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
+    tweet: "",
     successMessageStatus: false,
     successMessage: [],
     mentionBoxStatus: false
   },
   mutations: {
+    setTweet (state, tweet) {
+      state.tweet = tweet;
+    },
     setSuccessMessage (state, msg) {
       state.successMessage = msg;
     },
@@ -26,6 +30,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setTweet ({commit}, tweet) {
+      commit('setTweet', tweet);
+    },
     setSuccessMessage ({commit}, msg) {
       commit('setSuccessMessage', msg);
       commit('setSuccessMessageStatus');
@@ -38,6 +45,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getTweet: state => state.tweet,
     getSuccessMessage: state => state.successMessage,
     getSuccessMessageStatus: state => state.successMessageStatus,
     getMentionBoxStatus: state => state.mentionBoxStatus,

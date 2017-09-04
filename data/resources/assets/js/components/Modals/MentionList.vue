@@ -49,8 +49,11 @@
             console.log(err);
           })
         },
-        chooseName () {
-
+        chooseName (e) {
+          let name = e.target.id || e.srcElement.id;
+          this.$store.dispatch('setTweet', this.$store.getters.getTweet + name);
+          this.$store.dispatch('hideMentionBox');
+          this.results = [];
         }
       },
       mounted() {
@@ -67,7 +70,7 @@
   top: 20%;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 4;
 }
 .panel {
   -webkit-box-shadow: 10px 10px 38px -11px rgba(0,0,0,0.75);
