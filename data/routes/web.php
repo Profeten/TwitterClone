@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home', 'TweetController@newTweet');
 
+Route::get('/api/find/user/{query}', 'UserController@findUser');
 Route::get('/api/channel/{channel}', 'TweetController@getChannel');
 Route::get('/api/mentioned/{user}', 'TweetController@getMention');
 Route::get('/api/tweets', 'TweetController@getTweets');
